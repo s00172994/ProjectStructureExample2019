@@ -14,9 +14,7 @@ namespace ProjectStructureExample2019.Models
     {
         public ApplicationDBInitializer()
         {
-            
         }
-
         protected override void Seed(ApplicationDbContext context)
         {
             var manager =
