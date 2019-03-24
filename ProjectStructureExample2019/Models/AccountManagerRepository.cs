@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using BusinessModel;
+using BusinessModel.DTO;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using ProjectStructureExample2019.Models.DTO;
+
 
 namespace ProjectStructureExample2019.Models
 {
@@ -48,5 +49,7 @@ namespace ProjectStructureExample2019.Models
         {
             throw new NotImplementedException();
         }
+
+        
     }
 }

@@ -1,5 +1,5 @@
 ﻿using BusinessModel;
-using ProjectStructureExample2019.Models.DTO;
+using BusinessModel.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;

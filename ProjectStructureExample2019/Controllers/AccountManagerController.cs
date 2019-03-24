@@ -1,5 +1,6 @@
-﻿using ProjectStructureExample2019.Models;
-using ProjectStructureExample2019.Models.DTO;
+﻿using BusinessModel;
+using BusinessModel.DTO;
+using ProjectStructureExample2019.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,12 @@ using System.Web.Http;
 namespace ProjectStructureExample2019.Controllers
 {
     [Authorize(Roles = "Account Manager")]
+    [RoutePrefix("api/AccountManager")]
     public class AccountManagerController : ApiController
     {
         AccountManagerRepository db = new AccountManagerRepository();
 
+        [Route("getAccounts")]
         public AccountUserViewModel getAccounts()
         {
             var currentuser = db.getUserByName(User.Identity.Name);
@@ -34,6 +37,12 @@ namespace ProjectStructureExample2019.Controllers
 
 
         }
-        
+
+        [Route("getAccountsForCurrentManager/{id}")]
+        public List<Account> getAccounts(string id)
+        {
+            return db.GetAccountsByUser(id).accounts;
+        }
+
     }
 }

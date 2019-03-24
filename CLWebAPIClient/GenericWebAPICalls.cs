@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.Net;
 
 namespace WebAPIAuthenticationClient
 {
@@ -22,14 +23,16 @@ namespace WebAPIAuthenticationClient
         static public string AuthToken = "";
         static public AUTHSTATUS AuthStatus = AUTHSTATUS.NONE;
         static public string IgdbUserToken = "PUT YOUR EXTERNAL WEB API TOKEN HERE";
+
+        // Example Endpoint api/GameScores/getTops/Count/
         static public List<T> getList<T>(string endpoint)
-        // Endpoint api/GameScores/getTops/Count/
         {
             using (var client = new HttpClient())
                 {
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                    var response = client.GetAsync(baseWebAddress + endpoint ).Result;
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthToken);
+                var response = client.GetAsync(baseWebAddress + endpoint ).Result;
                     var resultContent = response.Content.ReadAsAsync<List<T>>(
                         new[] { new JsonMediaTypeFormatter() }).Result;
                     return resultContent;
@@ -62,17 +65,29 @@ namespace WebAPIAuthenticationClient
         }
 
         // Endpoint "api/GameScores/playerInfo"
+        // Example for this project api/AccountManager/getAccounts
         static public T getItem<T>(string EndPoint)
         {
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Accept.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer",AuthToken);
-                var response = client.GetAsync(baseWebAddress + EndPoint).Result;
-                var resultContent = response.Content.ReadAsAsync<T>(
-                    new[] { new JsonMediaTypeFormatter() }).Result;
-                return resultContent;
+                try
+                {
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthToken);
+                    var response = client.GetAsync(baseWebAddress + EndPoint).Result;
+                    if(response.StatusCode == HttpStatusCode.OK && response.ReasonPhrase.Contains("no accounts to manage"))
+                    {
+                        throw new Exception("Information from getItem call ",new Exception(response.ReasonPhrase));
+                    }
+                    var resultContent = response.Content.ReadAsAsync<T>(
+                        new[] { new JsonMediaTypeFormatter() }).Result;
+                    return resultContent;
+                }
+                catch(Exception ex)
+                {
+                    throw (ex);
+                }
             }
         }
 
@@ -85,6 +100,7 @@ namespace WebAPIAuthenticationClient
             {
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthToken);
                 var response = client.PostAsJsonAsync(baseWebAddress + Endpoint,g).Result;
                 if(response.IsSuccessStatusCode)
                 {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ProjectStructureExample2019.Models.DTO
+namespace BusinessModel.DTO
 {
     public class AccountUserViewModel
     {

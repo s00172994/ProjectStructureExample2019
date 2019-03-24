@@ -238,7 +238,6 @@
     <Compile Include="Models\AccountManagerRepository.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDBInitializer.cs" />
-    <Compile Include="Models\DTO\AccountUserViewModel.cs" />
     <Compile Include="Models\IAccount.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\IUser.cs" />
