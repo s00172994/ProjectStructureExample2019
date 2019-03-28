@@ -20,7 +20,7 @@ namespace BusinessModel
         public DbSet<Account> Accounts { get; set; }
     }
 
-public class Account
+    public class Account
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -33,7 +33,5 @@ public class Account
         public string AccountName { get; set; }
 
         public string AccountManagerID { get; set; }
-
-
     }
 }

@@ -8,7 +8,7 @@ namespace ProjectStructureExample2019.Models
 {
     public interface IUser
     {
-        ApplicationUser getUserByID(string id);
-        ApplicationUser getUserByName(string name);
+        ApplicationUser GetUserById(string id);
+        ApplicationUser GetUserByName(string name);
     }
 }

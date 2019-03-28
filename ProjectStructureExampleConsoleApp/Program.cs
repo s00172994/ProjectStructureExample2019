@@ -16,7 +16,7 @@ namespace ProjectStructureExampleConsoleApp
             ClientAuthentication.baseWebAddress = "http://localhost:51132/";
             if (ClientAuthentication.login("bowles.lionie@itsligo.ie", "LBowles$1"))
             {
-                Console.WriteLine("Successful login Token acquired {0} user status is {1}", ClientAuthentication.AuthToken,ClientAuthentication.AuthStatus.ToString());
+                Console.WriteLine("Successful login Token acquired {0} user status is {1}", ClientAuthentication.AuthToken, ClientAuthentication.AuthStatus.ToString());
                 try
                 {
                     AccountUserViewModel acuvm = ClientAuthentication.getItem<AccountUserViewModel>("api/AccountManager/getAccounts");
@@ -33,10 +33,23 @@ namespace ProjectStructureExampleConsoleApp
 
 
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine("Error {0} --> {1}", ex.Message, ex.InnerException.Message);
                 }
+
+                // Log in as the admin
+
+                if (ClientAuthentication.login("powell.paul@itsligo.ie", "Ppowell$1"))
+                {
+                    List<Account> accounts = ClientAuthentication.getList<Account>("api/AccountManager/getAllAccounts");
+
+                    foreach (var item in accounts)
+                    {
+                        Console.WriteLine("Account Name {0}", item.AccountName);
+                    }
+                }
+
                 Console.ReadKey();
             }
 

@@ -22,7 +22,7 @@ namespace ProjectStructureExample2019.Models
 
         public AccountUserViewModel GetAccountsByUser(string uid)
         {
-            ApplicationUser AccountManager = getUserByID(uid);
+            ApplicationUser AccountManager = GetUserById(uid);
             if ( AccountManager != null)
             {
                 var ManagerAccounts = bctx.Accounts.Where(a => a.AccountManagerID == uid).ToList();
@@ -35,12 +35,17 @@ namespace ProjectStructureExample2019.Models
             return null;
         }
 
-        public ApplicationUser getUserByID(string id)
+        public List<Account> GetAllAccounts()
+        {
+            return bctx.Accounts.ToList();
+        }
+
+        public ApplicationUser GetUserById(string id)
         {
             return actx.Users.Find(id);
         }
 
-        public ApplicationUser getUserByName(string name)
+        public ApplicationUser GetUserByName(string name)
         {
             return actx.Users.FirstOrDefault(u => u.UserName == name);
         }
@@ -49,7 +54,5 @@ namespace ProjectStructureExample2019.Models
         {
             throw new NotImplementedException();
         }
-
-        
     }
 }

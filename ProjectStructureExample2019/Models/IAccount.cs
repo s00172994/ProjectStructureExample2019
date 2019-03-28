@@ -13,5 +13,6 @@ namespace ProjectStructureExample2019.Models
         AccountUserViewModel GetAccountsByUser(string uid);
         void UpdateAccount(Account account, string uid);
         void CreateAccount(Account account, string uid);
+        List<Account> GetAllAccounts();
     }
 }

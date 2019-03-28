@@ -10,7 +10,7 @@ using System.Web.Http;
 
 namespace ProjectStructureExample2019.Controllers
 {
-    [Authorize(Roles = "Account Manager")]
+    [Authorize(Roles = "Account Manager, Admin")]
     [RoutePrefix("api/AccountManager")]
     public class AccountManagerController : ApiController
     {
@@ -19,7 +19,7 @@ namespace ProjectStructureExample2019.Controllers
         [Route("getAccounts")]
         public AccountUserViewModel getAccounts()
         {
-            var currentuser = db.getUserByName(User.Identity.Name);
+            var currentuser = db.GetUserByName(User.Identity.Name);
             if (currentuser != null) {
                 var CurrnetUserPortfoliio = db.GetAccountsByUser(currentuser.Id);
                 if(CurrnetUserPortfoliio.accounts.Count() < 1)
@@ -33,9 +33,6 @@ namespace ProjectStructureExample2019.Controllers
             var msg1 = new HttpResponseMessage(HttpStatusCode.BadRequest)
                             { ReasonPhrase = "User is not an account manager " };
             throw new HttpResponseException(msg1);
-
-
-
         }
 
         [Route("getAccountsForCurrentManager/{id}")]
@@ -44,5 +41,11 @@ namespace ProjectStructureExample2019.Controllers
             return db.GetAccountsByUser(id).accounts;
         }
 
+        [Authorize(Roles = "Admin")]
+        [Route("getAllAccounts")]
+        public List<Account> getAllAccounts()
+        {
+            return db.GetAllAccounts();
+        }
     }
 }
